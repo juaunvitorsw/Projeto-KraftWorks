@@ -1,8 +1,10 @@
 package com.example.KraftWorks.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.*;
 @Entity
-public class Person {
+public class Person implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

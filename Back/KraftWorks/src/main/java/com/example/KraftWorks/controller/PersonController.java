@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.KraftWorks.model.Person;
 import com.example.KraftWorks.repository.PersonRepository;
-import com.example.KraftWorks.service.PersonService;
+import com.example.KraftWorks.service.*;
+
 
 import java.util.List;
 
@@ -15,10 +16,12 @@ public class PersonController {
 
     private final PersonRepository repository;
     private final PersonService service;
+    private final PersonQueryService queryService;
 
-    public PersonController(PersonRepository repository, PersonService service) {
+    public PersonController(PersonRepository repository, PersonService service, PersonQueryService queryService) {
         this.repository = repository;
         this.service = service;
+        this.queryService = queryService;
     }
 
     @GetMapping
@@ -33,8 +36,7 @@ public class PersonController {
         } else if (partido != null) {
             return repository.findByPartido(partido);
         }
-        return repository.findAll();
-    }
+        return queryService.listarTodos();    }
 
     @PostMapping
     public Person salvar(@RequestBody Person person) {
