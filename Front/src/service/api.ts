@@ -16,6 +16,18 @@ export async function getPeople(
     url += `?${params.toString()}`;
   }
 
-  const response = await fetch(url);
-  return response.json();
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Erro ${response.status}: ${response.statusText}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error("Não foi possível conectar ao servidor. Verifique se o backend está ativo.");
+    }
+    throw error;
+  }
 }
