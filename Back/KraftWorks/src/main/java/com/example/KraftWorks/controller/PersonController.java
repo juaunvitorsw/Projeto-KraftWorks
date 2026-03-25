@@ -30,11 +30,11 @@ public class PersonController {
             @RequestParam(required = false) String partido
     ) {
         if (estado != null && partido != null) {
-            return repository.findByEstadoAndPartido(estado, partido);
+            return queryService.listarPorEstadoEPartido(estado, partido);
         } else if (estado != null) {
-            return repository.findByEstado(estado);
+            return queryService.listarPorEstado(estado);
         } else if (partido != null) {
-            return repository.findByPartido(partido);
+            return queryService.listarPorPartido(partido);
         }
         return queryService.listarTodos();    }
 

@@ -16,9 +16,24 @@ public class PersonQueryService {
         this.repository = repository;
     }
 
-    @Cacheable("people")
+    @Cacheable("peopleAll")
     public List<Person> listarTodos() {
         System.out.println("BUSCOU NO BANCO");
         return repository.findAll();
+    }
+    
+    @Cacheable(value = "peopleByEstado", key = "#estado")
+    public List<Person> listarPorEstado(String estado) {
+        return repository.findByEstadoIgnoreCase(estado);
+    }
+    
+    @Cacheable(value = "peopleByPartido", key = "#partido")
+    public List<Person> listarPorPartido(String partido) {
+        return repository.findByPartidoIgnoreCase(partido);
+    }
+    
+    @Cacheable(value = "peopleByEstadoPartido", key = "#estado + '_' + #partido")
+    public List<Person> listarPorEstadoEPartido(String estado, String partido) {
+        return repository.findByEstadoIgnoreCaseAndPartidoIgnoreCase(estado, partido);
     }
 }

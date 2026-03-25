@@ -11,9 +11,9 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Optional<Person> findByOcdPersonId(String ocdPersonId);
 
-    List<Person> findByEstado(String estado);
+    List<Person> findByEstadoIgnoreCase(String estado);
 
-    List<Person> findByPartido(String partido);
+    List<Person> findByPartidoIgnoreCase(String partido);
 
-    List<Person> findByEstadoAndPartido(String estado, String partido);
+    List<Person> findByEstadoIgnoreCaseAndPartidoIgnoreCase(String estado, String partido);
 }
