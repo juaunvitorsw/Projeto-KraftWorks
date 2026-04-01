@@ -5,9 +5,12 @@ import com.example.KraftWorks.model.Person;
 import com.example.KraftWorks.repository.ControleSyncRepository;
 import com.example.KraftWorks.repository.PersonRepository;
 
+import jakarta.annotation.PostConstruct;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,9 +28,12 @@ public class PersonService {
     private final JsonMapper jsonMapper;
     private final RestTemplate http = new RestTemplate();
     private final ControleSyncRepository controleRepository;
+    @Value("${api.url}")
+    private String url;
 
-    private static final String URL = "https://v3.openstates.org/people?jurisdiction=Alabama";
-
+    @Value("${api.key}")
+    private String apiKey;
+    
     public PersonService(PersonRepository repository, JsonMapper jsonMapper,ControleSyncRepository controleRepository) {
         this.repository = repository;
         this.jsonMapper = jsonMapper;
@@ -48,10 +54,10 @@ public class PersonService {
         }
         
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-API-KEY", "19eb3439-e0c9-4a4a-96d2-09846fe72bf7");
+        headers.set("X-API-KEY", apiKey);
 
         ResponseEntity<String> response = http.exchange(
-                URL,
+        		url,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 String.class
