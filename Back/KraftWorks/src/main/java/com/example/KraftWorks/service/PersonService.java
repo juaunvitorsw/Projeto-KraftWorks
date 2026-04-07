@@ -82,13 +82,20 @@ public class PersonService {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+            ResponseEntity<String> response = null;
             
-            ResponseEntity<String> response = http.exchange(
-                    url + "?jurisdiction=" + nomeJur,
-                    HttpMethod.GET,
-                    new HttpEntity<>(headers),
-                    String.class
-            );
+            try {
+        	   response = http.exchange(
+                           url + "?jurisdiction=" + nomeJur,
+                           HttpMethod.GET,
+                           new HttpEntity<>(headers),
+                           String.class
+                   );
+			} catch (Exception e) {
+			    System.out.println("Erro ao chamar API: " + e.getMessage());
+			    continue;
+			}
+         
 
             String body = response.getBody();
             if (body == null || body.isBlank()) {
