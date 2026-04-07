@@ -2,6 +2,7 @@ package com.example.KraftWorks.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.KraftWorks.model.Jurisdiction;
 import com.example.KraftWorks.model.Person;
 import com.example.KraftWorks.repository.PersonRepository;
 import com.example.KraftWorks.service.*;
@@ -45,7 +46,14 @@ public class PersonController {
    
     @GetMapping("/sync")
     public String sync() {
+        service.syncJurisdiction();
         service.syncPeople();
         return "Sincronização iniciada";
     }
+    
+    @GetMapping("/jurisdictions")
+    public List<Jurisdiction> listarEstados(){
+    	return queryService.listarTodosEstados();
+    }
+    
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPeople } from "./service/api";
+import { getJurisdictions, getPeople } from "./service/api";
 import type { Person } from "./types/Person";
 import "./App.css";
 
@@ -9,7 +9,8 @@ function App() {
   const [partido, setPartido] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [estados, setEstados] = useState<{ id: number; nome: string }[]>([]);
+  
   useEffect(() => {
     setLoading(true);
     setError(null);
@@ -23,6 +24,29 @@ function App() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+  getJurisdictions()
+    .then((data) => setEstados(data))
+    .catch((err) => console.error(err));
+}, []);
+
+useEffect(() => {
+  if (!estado) return;
+
+  setLoading(true);
+  setError(null);
+
+  getPeople(estado)
+    .then((data) => {
+      setPeople(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      setError(err.message || "Erro ao buscar dados");
+      setLoading(false);
+    });
+}, [estado]);
 
   function buscar() {
     setLoading(true);
@@ -48,13 +72,20 @@ function App() {
       {/* FILTROS */}
       <div className="filters-section">
         <div className="filters-grid">
-          <input
+         <select
             className="filter-input"
-            placeholder="🔍 Filtrar por Estado"
             value={estado}
             onChange={(e) => setEstado(e.target.value)}
             disabled={loading}
-          />
+          >
+            <option value="">🔍 Selecione um Estado</option>
+
+            {estados.map((e) => (
+              <option key={e.id} value={e.nome}>
+                {e.nome}
+              </option>
+            ))}
+          </select>
 
           <input
             className="filter-input"

@@ -5,7 +5,7 @@ export async function getPeople(
   partido?: string
 ): Promise<Person[]> {
 
-  let url = "http://localhost:8080/people";
+  let url = `${import.meta.env.VITE_BACKEND_URL}/people`;
 
   const params = new URLSearchParams();
 
@@ -30,4 +30,17 @@ export async function getPeople(
     }
     throw error;
   }
+}
+
+export async function getJurisdictions() {
+
+    let url = `${import.meta.env.VITE_BACKEND_URL}/people/jurisdictions`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("Erro ao buscar estados");
+  }
+
+  return response.json();
 }
