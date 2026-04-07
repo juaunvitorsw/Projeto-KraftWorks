@@ -10,6 +10,7 @@ import com.example.KraftWorks.repository.PersonRepository;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -204,6 +205,10 @@ public class PersonService {
         controleRepository.save(controle);
 
         System.out.println("✅ Sync finalizado e registrado.");
+        
+        CompletableFuture.runAsync(() -> {
+            syncPeople();
+        });
 
         return body;
     }
