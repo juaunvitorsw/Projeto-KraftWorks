@@ -1,6 +1,8 @@
 package com.example.KraftWorks.service;
 
+import com.example.KraftWorks.model.Jurisdiction;
 import com.example.KraftWorks.model.Person;
+import com.example.KraftWorks.repository.JurisdisctionRepository;
 import com.example.KraftWorks.repository.PersonRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -11,9 +13,11 @@ import java.util.List;
 public class PersonQueryService {
 
     private final PersonRepository repository;
+    private final JurisdisctionRepository repositoryJurisdiction;
 
-    public PersonQueryService(PersonRepository repository) {
+    public PersonQueryService(PersonRepository repository, JurisdisctionRepository repositoryJurisdiction) {
         this.repository = repository;
+        this.repositoryJurisdiction = repositoryJurisdiction;
     }
 
     @Cacheable("peopleAll")
@@ -35,5 +39,9 @@ public class PersonQueryService {
     @Cacheable(value = "peopleByEstadoPartido", key = "#estado + '_' + #partido")
     public List<Person> listarPorEstadoEPartido(String estado, String partido) {
         return repository.findByEstadoIgnoreCaseAndPartidoIgnoreCase(estado, partido);
+    }
+    
+    public List<Jurisdiction> listarTodosEstados(){
+    	return repositoryJurisdiction.findAll();
     }
 }

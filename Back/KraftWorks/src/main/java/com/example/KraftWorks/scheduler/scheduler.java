@@ -1,5 +1,7 @@
 package com.example.KraftWorks.scheduler;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +17,11 @@ public class scheduler {
     }
 
     // @Scheduled(fixedRate = 60000) // a cada 1 minuto
-    @Scheduled(cron = "0 0 20 * * *") // todo dia às 02:00
+    @Scheduled(cron = "0 0 02 * * *") // todo dia às 02:00
     public void executarSyncDiaria() {
-        service.syncPeople();
+    	CompletableFuture.runAsync(() -> {
+            service.syncJurisdiction();
+            service.syncPeople();
+        });
     }
 }

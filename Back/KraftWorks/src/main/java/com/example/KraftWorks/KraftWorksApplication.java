@@ -4,6 +4,7 @@ import com.example.KraftWorks.scheduler.scheduler;
 import com.example.KraftWorks.service.PersonService;
 
 import jakarta.annotation.PostConstruct;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.cache.annotation.EnableCaching;
 
@@ -32,6 +33,10 @@ public class KraftWorksApplication {
     @PostConstruct
     public void init() {
         System.out.println("🚀 Verificando execução ao iniciar...");
-        service.syncPeople();
+        
+        CompletableFuture.runAsync(() -> {
+            service.syncJurisdiction();
+            service.syncPeople();
+        });
     }
 }

@@ -13,6 +13,7 @@ public class ControleSync {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate dataExecucao;
+    private String tipoSync;
     
 	public long getId() {
 		return id;
@@ -25,6 +26,12 @@ public class ControleSync {
 	}
 	public void setDataExecucao(LocalDate dataExecucao) {
 		this.dataExecucao = dataExecucao;
+	}
+	public String getTipoSync() {
+		return tipoSync;
+	}
+	public void setTipoSync(String tipoSync) {
+		this.tipoSync = tipoSync;
 	}
     
 }
